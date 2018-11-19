@@ -16,13 +16,11 @@ class User < ActiveRecord::Base
 
   def email= email
     self.default_email = Email.where(email: email).first_or_initialize
+    errors.add(:base, :taken) if default_email.persisted? && default_email.user != self
   end
 
   def self.having_email email
-    User
-      .joins(:emails)
-      .where(emails: {email: email})
-      .first
+    User.joins(:emails).where(emails: { email: email }).first
   end
 
   def self.find_first_by_auth_conditions warden_conditions
@@ -43,8 +41,6 @@ class User < ActiveRecord::Base
   def save_default_email
     if default_email.user.blank?
       default_email.user = self
-    elsif default_email.user != self
-      raise ActiveRecord::Rollback
     end
     default_email.save!
   end
