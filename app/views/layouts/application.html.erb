@@ -9,6 +9,13 @@
   </head>
 
   <body>
+  	<% if current_user %>
+      <%= link_to 'Sign_out',  destroy_user_session_path %>
+      <%= link_to 'Edit User', edit_user_registration_path %>
+  	<% else %>
+      <%= link_to 'Sign_in',  new_user_session_path %>
+      <%= link_to 'Sign_up',  new_user_registration_path %>   
+    <% end %>
     <%= yield %>
   </body>
 </html>

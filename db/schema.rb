@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181114151225) do
+ActiveRecord::Schema.define(version: 20181125125919) do
 
   create_table "emails", force: :cascade do |t|
     t.string "email"
     t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_identities", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "email_id"
+    t.string "uid"
+    t.string "provider"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
